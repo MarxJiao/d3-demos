@@ -3,24 +3,22 @@
  * @author Marx
  */
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+let pack = require('./webapck.pack.js');
 
 const config = {
-    entry: {
-        app: './src/index/index.js'
-    },
+    entry: pack.entryFiles,
     output: {
         path: __dirname + '/dist',
-        filename: 'index.js'
+        filename: '[name].js'
     },
-    rules: [{
-        test: /\.js$/,
-        use: 'babel-loader' 
-    }],
-    plugins: [new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: './src/index/index.html'
-    })],
+    module: {
+        rules: [{
+            test: /\.js$/,
+            loader: 'babel-loader' 
+        }]
+    },
+    
+    plugins: pack.webpackPages,
     devServer:{
         inline:true,
         contentBase: __dirname + "dist",
