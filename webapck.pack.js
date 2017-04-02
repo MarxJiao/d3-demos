@@ -3,6 +3,7 @@
  * @author Marx
  */
 
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const fs = require('fs');
@@ -18,11 +19,15 @@ for (let page of pages) {
     let pagePlugin = new HtmlWebpackPlugin({
         filename: page + '.html',
         template: './src/' + page + '/index.html',
-        chunks: [page]
+        chunks: [page, 'commons']
     });
-    entryFiles[page] = './src/' + page + '/index.js'
+    entryFiles[page] = './src/' + page + '/index.js';
     webpackPages.push(pagePlugin);
 }
+webpackPages.push(new webpack.optimize.CommonsChunkPlugin({
+    name: "commons",
+    filename: "commons.js"
+}))
 
 module.exports = {
     webpackPages,entryFiles
