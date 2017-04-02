@@ -1,0 +1,22 @@
+{
+  "name": "d3-demos",
+  "version": "1.0.0",
+  "description": "d3.js study demos",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarxJiao/d3-demos.git"
+  },
+  "keywords": [
+    "d3.js"
+  ],
+  "author": "Marx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarxJiao/d3-demos/issues"
+  },
+  "homepage": "https://github.com/MarxJiao/d3-demos#readme"
+}
