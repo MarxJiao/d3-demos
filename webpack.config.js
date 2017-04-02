@@ -13,6 +13,10 @@ const config = {
         path: __dirname + '/dist',
         filename: 'index.js'
     },
+    rules: [{
+        test: /\.js$/,
+        use: 'babel-loader' 
+    }],
     plugins: [new HtmlWebpackPlugin({
         filename: 'index.html',
         template: './src/index/index.html'
