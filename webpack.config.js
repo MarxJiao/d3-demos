@@ -4,7 +4,9 @@
  */
 
 let pack = require('./webapck.pack.js');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+let plugins = [...pack.webpackPages, new ExtractTextPlugin('[name].css')]
 const config = {
     entry: pack.entryFiles,
     output: {
@@ -14,11 +16,24 @@ const config = {
     module: {
         rules: [{
             test: /\.js$/,
-            loader: 'babel-loader' 
-        }]
+            use: 'babel-loader' 
+        },
+        {
+            test: /\.css$/,
+            use: ExtractTextPlugin.extract({
+                use: 'css-loader'
+            })
+        },
+        {
+            test: /\.less$/,
+            use: ExtractTextPlugin.extract({
+                use: 'css-loader!less-loader'
+            })
+        }
+        ]
     },
     
-    plugins: pack.webpackPages,
+    plugins,
     devServer:{
         inline:true,
         contentBase: __dirname + "dist",
