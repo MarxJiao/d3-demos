@@ -28,6 +28,7 @@ webpackPages.push(new webpack.optimize.CommonsChunkPlugin({
     name: "commons",
     filename: "commons.js"
 }))
+webpackPages.push(new webpack.optimize.UglifyJsPlugin({}));
 
 module.exports = {
     webpackPages,entryFiles
