@@ -36,6 +36,11 @@ updateRect();
 // 填写文字
 updateText();
 
+const sortButton = document.getElementById('sort');
+sortButton.addEventListener('click', () => {
+    sortRect();
+})
+
 /**
  * 画矩形
  *
@@ -87,4 +92,16 @@ function updateText() {
         .append('text');
     drawText(update);
     drawText(enter);
+}
+
+/**
+ * 排序
+ */
+function sortRect() {
+    dataset.sort(d3.ascending);
+    // 画矩形
+    updateRect();
+
+    // 填写文字
+    updateText();
 }
