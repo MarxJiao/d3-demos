@@ -1,5 +1,7 @@
 # d3.js学习demo
 
+[![Build Status](https://travis-ci.org/MarxJiao/d3-demos.svg?branch=master)](https://travis-ci.org/MarxJiao/d3-demos)
+
 d3.js学习过程中的demo
 
 # Tips
