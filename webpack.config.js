@@ -6,7 +6,7 @@
 let pack = require('./webapck.pack.js');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-let plugins = [...pack.webpackPages, new ExtractTextPlugin('[name].css')]
+let plugins = [...pack.plugins, new ExtractTextPlugin('[name].css')]
 const config = {
     entry: pack.entryFiles,
     output: {
@@ -39,6 +39,7 @@ const config = {
         contentBase: __dirname + "dist",
         compress: true,
         port: 9000
-    }
+    },
+    devtool: 'inline-source-map'
 };
 module.exports = config;

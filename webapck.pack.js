@@ -10,7 +10,7 @@ const fs = require('fs');
 const pages = fs.readdirSync('src', 'utf8');
 
 // HtmlWebpackPlugin数组，用来保存要打包的页面
-let webpackPages = [];
+let plugins = [];
 
 // 入口配置
 let entryFiles = {};
@@ -22,14 +22,14 @@ for (let page of pages) {
         chunks: [page, 'commons']
     });
     entryFiles[page] = './src/' + page + '/index.js';
-    webpackPages.push(pagePlugin);
+    plugins.push(pagePlugin);
 }
-webpackPages.push(new webpack.optimize.CommonsChunkPlugin({
+plugins.push(new webpack.optimize.CommonsChunkPlugin({
     name: "commons",
     filename: "commons.js"
 }))
-webpackPages.push(new webpack.optimize.UglifyJsPlugin({}));
+plugins.push(new webpack.optimize.UglifyJsPlugin({}));
 
 module.exports = {
-    webpackPages,entryFiles
+    plugins,entryFiles
 }
