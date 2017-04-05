@@ -9,6 +9,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 const pages = fs.readdirSync('src', 'utf8');
 
+// 将文件信息保存在files.js里面
+fs.writeFile('./files.js', 'export const files = ["' + pages.join('","') + '"];', () => {
+    console.log('Saved.');  
+})
+
 // HtmlWebpackPlugin数组，用来保存要打包的页面
 let plugins = [];
 
