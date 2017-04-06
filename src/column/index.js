@@ -12,6 +12,10 @@ const dataset = [50, 43, 120, 87, 99, 167, 142];
 // svg区域大小
 const width = 400;
 const height = 400;
+
+const xAxisWidth = 300;
+const yAxisWidth = 300;
+
 const padding = {
     top: 20,
     right: 20,
@@ -40,6 +44,19 @@ const sortButton = document.getElementById('sort');
 sortButton.addEventListener('click', () => {
     sortRect();
 })
+console.log(d3.range(dataset.length));
+const xScale = d3.scaleOrdinal()
+    .domain(d3.range(dataset.length))
+    .range(d3.range(0, xAxisWidth, rectStep));
+
+const axis = d3.axisBottom(xScale)
+    .ticks(dataset.length)
+    .tickPadding(17) ;
+
+const gAxis = svg.append('g')
+    .attr('transform', 'translate(0, 0)');
+
+axis(gAxis);
 
 /**
  * 画矩形
