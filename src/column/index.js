@@ -12,11 +12,15 @@ const dataset = [50, 43, 120, 87, 99, 167, 142];
 // svg区域大小
 const width = 400;
 const height = 400;
+
+const xAxisWidth = 300;
+const yAxisWidth = 300;
+
 const padding = {
     top: 20,
     right: 20,
     bottom: 20,
-    left: 20
+    left: 40
 };
 
 // 矩形所占的宽度，包括空白
@@ -30,16 +34,32 @@ const svg = d3.select('body')
     .attr('width', width)
     .attr('height', height);
 
-// 画矩形
-updateRect();
 
-// 填写文字
-updateText();
 
 const sortButton = document.getElementById('sort');
 sortButton.addEventListener('click', () => {
     sortRect();
 })
+
+const xScale = d3.scaleBand()
+    .domain(d3.range(dataset.length))
+    .rangeRound([0, xAxisWidth])
+    .padding(0.2);
+const axis = d3.axisBottom(xScale);
+
+
+
+const yScale = d3.scaleLinear()
+    .domain([d3.max(dataset), 0])
+    .range([0, yAxisWidth])
+
+console.log(yScale(142));
+
+
+const yAxis = d3.axisLeft(yScale).ticks(8);
+
+
+
 
 /**
  * 画矩形
@@ -48,10 +68,14 @@ sortButton.addEventListener('click', () => {
  */
 function drawRect(rect) {
     rect.attr('fill', 'steelblue')
-        .attr('x', (d, i) => padding.left + i * rectStep)
-        .attr('y', d => height - padding.bottom - d)
-        .attr('width', rectwidth)
-        .attr('height', d => d);
+        .attr('x', (d, i) => padding.left + xScale(i))
+        .attr('y', d => height - padding.bottom - yScale(167 - d))
+        .attr('width', xScale.bandwidth())
+        .attr('height', (d, i) => {
+            console.log(xScale(i), xScale.bandwidth());
+            console.log(xScale.padding());
+            return yScale(167 - d)
+        });
 }
 
 /**
@@ -63,8 +87,8 @@ function drawText(text) {
     text.attr('fill', '#fff')
         .attr('font-size', '14px')
         .attr('text-anchor', 'middle')
-        .attr('x', (d, i) => padding.left + i * rectStep)
-        .attr('y', d => height - d - padding.top)
+        .attr('x', (d, i) => padding.left + xScale(i))
+        .attr('y', d => height - yScale(167 - d) - padding.top)
         .attr('dx', rectwidth / 2)
         .attr('dy', '1em')
         .text(d => d);
@@ -105,3 +129,16 @@ function sortRect() {
     // 填写文字
     updateText();
 }
+
+// 画矩形
+updateRect();
+
+// 填写文字
+updateText();
+
+const gAxis = svg.append('g')
+    .attr('transform', 'translate(' + padding.left + ', ' + (height - padding.bottom) + ')')
+    .call(axis);
+const gyAxis = svg.append('g')
+    .attr('transform', 'translate(' + padding.left + ', ' + (height - yAxisWidth - padding.bottom) + ')')
+    .call(yAxis);
