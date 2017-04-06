@@ -20,7 +20,7 @@ const padding = {
     top: 20,
     right: 20,
     bottom: 20,
-    left: 20
+    left: 40
 };
 
 // 矩形所占的宽度，包括空白
