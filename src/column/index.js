@@ -47,23 +47,19 @@ const xScale = d3.scaleBand()
     .padding(0.2);
 const axis = d3.axisBottom(xScale);
 
-const gAxis = svg.append('g')
-    .attr('transform', 'translate(0, 0)')
-    .call(axis);
-
 
 
 const yScale = d3.scaleLinear()
-    .domain(0, d3.max(dataset))
+    .domain([0, d3.max(dataset)])
     .range([yAxisWidth, 0])
 
 
-const yAxis = d3.axisLeft(yScale).ticks(5);
 
 
-const gyAxis = svg.append('g')
-    .attr('transform', 'translate(0, 0)')
-    .call(yAxis);
+const yAxis = d3.axisLeft(yScale).ticks(8);
+
+
+
 
 /**
  * 画矩形
@@ -91,7 +87,7 @@ function drawText(text) {
     text.attr('fill', '#fff')
         .attr('font-size', '14px')
         .attr('text-anchor', 'middle')
-        .attr('x', (d, i) => padding.left + i * rectStep)
+        .attr('x', (d, i) => padding.left + xScale(i))
         .attr('y', d => height - d - padding.top)
         .attr('dx', rectwidth / 2)
         .attr('dy', '1em')
@@ -139,3 +135,10 @@ updateRect();
 
 // 填写文字
 updateText();
+
+const gAxis = svg.append('g')
+    .attr('transform', 'translate(' + padding.left + ', ' + (height - padding.bottom) + ')')
+    .call(axis);
+const gyAxis = svg.append('g')
+    .attr('transform', 'translate(' + padding.left + ', ' + (height - yAxisWidth - padding.bottom) + ')')
+    .call(yAxis);
