@@ -50,10 +50,10 @@ const axis = d3.axisBottom(xScale);
 
 
 const yScale = d3.scaleLinear()
-    .domain([0, d3.max(dataset)])
-    .range([yAxisWidth, 0])
+    .domain([d3.max(dataset), 0])
+    .range([0, yAxisWidth])
 
-
+console.log(yScale(142));
 
 
 const yAxis = d3.axisLeft(yScale).ticks(8);
@@ -69,12 +69,12 @@ const yAxis = d3.axisLeft(yScale).ticks(8);
 function drawRect(rect) {
     rect.attr('fill', 'steelblue')
         .attr('x', (d, i) => padding.left + xScale(i))
-        .attr('y', d => height - padding.bottom - d)
+        .attr('y', d => height - padding.bottom - yScale(167 - d))
         .attr('width', xScale.bandwidth())
         .attr('height', (d, i) => {
             console.log(xScale(i), xScale.bandwidth());
             console.log(xScale.padding());
-            return d
+            return yScale(167 - d)
         });
 }
 
@@ -88,7 +88,7 @@ function drawText(text) {
         .attr('font-size', '14px')
         .attr('text-anchor', 'middle')
         .attr('x', (d, i) => padding.left + xScale(i))
-        .attr('y', d => height - d - padding.top)
+        .attr('y', d => height - yScale(167 - d) - padding.top)
         .attr('dx', rectwidth / 2)
         .attr('dy', '1em')
         .text(d => d);
