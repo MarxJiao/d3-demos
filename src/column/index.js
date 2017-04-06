@@ -34,29 +34,36 @@ const svg = d3.select('body')
     .attr('width', width)
     .attr('height', height);
 
-// 画矩形
-updateRect();
 
-// 填写文字
-updateText();
 
 const sortButton = document.getElementById('sort');
 sortButton.addEventListener('click', () => {
     sortRect();
 })
-console.log(d3.range(dataset.length));
-const xScale = d3.scaleOrdinal()
-    .domain(d3.range(dataset.length))
-    .range(d3.range(0, xAxisWidth, rectStep));
 
-const axis = d3.axisBottom(xScale)
-    .ticks(dataset.length)
-    .tickPadding(17) ;
+const xScale = d3.scaleBand()
+    .domain(d3.range(dataset.length))
+    .rangeRound([0, xAxisWidth])
+    .padding(0.2);
+const axis = d3.axisBottom(xScale);
 
 const gAxis = svg.append('g')
-    .attr('transform', 'translate(0, 0)');
+    .attr('transform', 'translate(0, 0)')
+    .call(axis);
 
-axis(gAxis);
+
+
+const yScale = d3.scaleLinear()
+    .domain(0, d3.max(dataset))
+    .range([yAxisWidth, 0])
+
+
+const yAxis = d3.axisLeft(yScale).ticks(5);
+
+
+const gyAxis = svg.append('g')
+    .attr('transform', 'translate(0, 0)')
+    .call(yAxis);
 
 /**
  * 画矩形
@@ -65,10 +72,14 @@ axis(gAxis);
  */
 function drawRect(rect) {
     rect.attr('fill', 'steelblue')
-        .attr('x', (d, i) => padding.left + i * rectStep)
+        .attr('x', (d, i) => padding.left + xScale(i))
         .attr('y', d => height - padding.bottom - d)
-        .attr('width', rectwidth)
-        .attr('height', d => d);
+        .attr('width', xScale.bandwidth())
+        .attr('height', (d, i) => {
+            console.log(xScale(i), xScale.bandwidth());
+            console.log(xScale.padding());
+            return d
+        });
 }
 
 /**
@@ -122,3 +133,9 @@ function sortRect() {
     // 填写文字
     updateText();
 }
+
+// 画矩形
+updateRect();
+
+// 填写文字
+updateText();
