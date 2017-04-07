@@ -1,4 +1,6 @@
+import './index.less';
 import { files } from '../../files.js';
+
 
 console.log(files);
 
