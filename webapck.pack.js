@@ -7,7 +7,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const fs = require('fs');
-const pages = fs.readdirSync('src', 'utf8');
+const pages = fs.readdirSync('src/demos', 'utf8');
 
 // 将文件信息保存在files.js里面
 fs.writeFile('./files.js', 'export const files = ["' + pages.join('","') + '"];', () => {
@@ -23,12 +23,19 @@ let entryFiles = {};
 for (let page of pages) {
     let pagePlugin = new HtmlWebpackPlugin({
         filename: page + '.html',
-        template: './src/' + page + '/index.html',
+        template: './src/demos/' + page + '/index.html',
         chunks: [page, 'commons']
     });
-    entryFiles[page] = './src/' + page + '/index.js';
+    entryFiles[page] = './src/demos/' + page + '/index.js';
     plugins.push(pagePlugin);
 }
+entryFiles['index'] = './src/index/index.js';
+plugins.push(new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: './src/index/index.html',
+        chunks: ['index', 'commons']
+    }))
+
 plugins.push(new webpack.optimize.CommonsChunkPlugin({
     name: "commons",
     filename: "commons.js"
