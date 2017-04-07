@@ -1,1 +1,1 @@
-export const files = ["column"];
+export const files = ["column","scatter"];
