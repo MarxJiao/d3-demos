@@ -1,1 +1,1 @@
-export const files = ["column","index"];
+export const files = ["column"];

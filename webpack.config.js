@@ -29,6 +29,11 @@ const config = {
             use: ExtractTextPlugin.extract({
                 use: 'css-loader!less-loader'
             })
+        },
+        {
+          // 专供iconfont方案使用的，后面会带一串时间戳，需要特别匹配到
+          test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
+          use: 'file-loader?name=./static/fonts/[name].[ext]',
         }
         ]
     },
