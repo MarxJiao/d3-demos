@@ -20,10 +20,19 @@ const center = [
 ];
 
 // 布局数据
+// svg宽度
 const width = 400;
+
+// svg高度
 const height = 400;
+
+// x轴长度
 const xAxisWidth = 300;
+
+// y轴长度
 const yAxisWidth = 300;
+
+// 边距
 const padding = {
     top: 30,
     right: 30,
@@ -31,19 +40,23 @@ const padding = {
     left: 30
 };
 
+// 在body中添加svg，并设置尺寸
 const svg = d3.select('body')
     .append('svg')
     .attr('width', width)
     .attr('height', height);
 
+// x轴比例尺
 const xScale = d3.scaleLinear()
     .domain([0, 1.2 * d3.max(center, d => d[0])])
     .range([0, xAxisWidth]);
 
+// y轴比例尺
 const yScale = d3.scaleLinear()
     .domain([0, 1.2 * d3.max(center, d => d[1])])
     .range([yAxisWidth, 0]);
 
+// 为页面中的圆添加数据，因为初始页面没有圆，选数据的enter部分添加圆
 const circle = svg.selectAll('circle')
     .data(center)
     .enter()
@@ -53,14 +66,18 @@ const circle = svg.selectAll('circle')
     .attr('cy', d => padding.top + yScale(d[1]))
     .attr('r', 5);
 
+// x坐标轴
 const xAxis = d3.axisBottom(xScale);
 
+// 添加x坐标轴
 svg.append('g')
     .attr('transform', 'translate(' + padding.left + ', ' + (padding.top + yAxisWidth) + ')')
     .call(xAxis)
 
+// y坐标轴
 const yAxis = d3.axisLeft(yScale).ticks(5);
 
+// 添加y轴
 svg.append('g')
     .attr('transform', 'translate(' + padding.left + ', ' + padding.top + ')')
     .call(yAxis);
