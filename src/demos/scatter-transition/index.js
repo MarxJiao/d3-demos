@@ -6,7 +6,7 @@
 import * as d3 from 'd3';
 
 // 数据源
-const center = [
+let center = [
     [0.5, 0.5],
     [0.7, 0.8],
     [0.4, 0.9],
@@ -57,18 +57,7 @@ const yScale = d3.scaleLinear()
     .range([yAxisWidth, 0]);
 
 // 为页面中的圆添加数据，因为初始页面没有圆，选数据的enter部分添加圆
-const circle = svg.selectAll('circle')
-    .data(center)
-    .enter()
-    .append('circle')
-    .attr('fill', 'black')
-    .attr('cx', padding.left)
-    .attr('cy', yAxisWidth + padding.top)
-    .transition()
-    .duration(2000)
-    .attr('cx', d => padding.left + xScale(d[0]))
-    .attr('cy', d => padding.top + yScale(d[1]))
-    .attr('r', 5);
+draw();
 
 // x坐标轴
 const xAxis = d3.axisBottom(xScale);
@@ -85,3 +74,36 @@ const yAxis = d3.axisLeft(yScale).ticks(5);
 svg.append('g')
     .attr('transform', 'translate(' + padding.left + ', ' + padding.top + ')')
     .call(yAxis);
+
+/**
+ * 画散点图
+ */
+function draw() {
+    const circle = svg.selectAll('circle')
+        .data(center);
+    
+    circle.exit().remove(); // 删除exit部分
+
+    circle.enter()
+        .append('circle')
+        .merge(circle) // 将enter部分和update部分合并
+        .attr('fill', 'black')
+        .transition()
+        .duration(2000)
+        .attr('cx', d => padding.left + xScale(d[0]))
+        .attr('cy', d => padding.top + yScale(d[1]))
+        .attr('r', 5);
+}
+
+/**
+ * 更新散点图
+ */
+function update() {
+    // 打乱散点图顺序
+    d3.shuffle(center);
+    draw();
+}
+
+// 获取按钮并添加点击事件
+const updateButton = document.getElementById('update');
+updateButton.addEventListener('click', update);
