@@ -56,6 +56,20 @@ const yScale = d3.scaleLinear()
     .domain([0, 1.2 * d3.max(center, d => d[1])])
     .range([yAxisWidth, 0]);
 
+// drag事件
+const drag = d3.drag()
+    .on('start', function () {
+        console.log('拖拽开始');
+    })
+    .on('end', function () {
+        console.log('拖拽结束');
+    })
+    .on('drag', function (d) {
+        d3.select(this)
+            .attr('cx', d3.event.x)
+            .attr('cy', d3.event.y)
+    });
+
 // 为页面中的圆添加数据，因为初始页面没有圆，选数据的enter部分添加圆
 const circle = svg.selectAll('circle')
     .data(center)
@@ -65,6 +79,7 @@ const circle = svg.selectAll('circle')
     .attr('cx', d => padding.left + xScale(d[0]))
     .attr('cy', d => padding.top + yScale(d[1]))
     .attr('r', 5)
+    // 鼠标事件
     .on('mouseover',function (d, i) {  // 注意这里不能使用箭头函数
         d3.select(this)
             .attr('fill', 'yellow');
@@ -74,7 +89,8 @@ const circle = svg.selectAll('circle')
             .transition()
             .duration(500)
             .attr('fill', 'black');
-    });
+    })
+    .call(drag);
 
 // x坐标轴
 const xAxis = d3.axisBottom(xScale);
