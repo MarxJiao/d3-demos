@@ -3,10 +3,13 @@
  * @author Marx
  */
 
+var OpenBrowserPlugin = require('open-browser-webpack-plugin');
+
 let pack = require('./webapck.pack.js');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 let plugins = [...pack.plugins, new ExtractTextPlugin('[name].css')]
+plugins.push(new OpenBrowserPlugin({ url: 'http://localhost:9000' }))
 const config = {
     entry: pack.entryFiles,
     output: {
@@ -43,7 +46,8 @@ const config = {
         inline:true,
         contentBase: __dirname + "dist",
         compress: true,
-        port: 9000
+        port: 9000,
+        host: "0.0.0.0"
     },
     devtool: 'inline-source-map'
 };
