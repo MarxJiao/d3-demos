@@ -1,1 +1,1 @@
-export const files = ["column","line","mouse-event","scatter","scatter-transition"];
+export const files = ["column","line","mouse-event","scatter","scatter-transition","zoom"];
