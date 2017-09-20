@@ -50,7 +50,7 @@ plugins.push(new webpack.optimize.CommonsChunkPlugin({
 plugins.push(new UglifyJSPlugin());
 
 // 分析打包后的内容
-plugins.push(new BundleAnalyzerPlugin());
+// plugins.push(new BundleAnalyzerPlugin());
 
 
 module.exports = {
