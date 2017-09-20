@@ -5,6 +5,8 @@
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const fs = require('fs');
 const pages = fs.readdirSync('src/demos', 'utf8');
@@ -30,17 +32,26 @@ for (let page of pages) {
     plugins.push(pagePlugin);
 }
 entryFiles['index'] = './src/index/index.js';
-plugins.push(new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: './src/index/index.html',
-        chunks: ['index', 'commons']
-    }))
 
+// 将js和html对应
+plugins.push(new HtmlWebpackPlugin({
+    filename: 'index.html',
+    template: './src/index/index.html',
+    chunks: ['index', 'commons']
+}))
+
+// 将公共文件抽出，因为index和其它文件不一样，这里起到的作用比较小
 plugins.push(new webpack.optimize.CommonsChunkPlugin({
     name: "commons",
     filename: "commons.js"
 }))
-plugins.push(new webpack.optimize.UglifyJsPlugin({}));
+
+// 压缩代码
+plugins.push(new UglifyJSPlugin());
+
+// 分析打包后的内容
+plugins.push(new BundleAnalyzerPlugin());
+
 
 module.exports = {
     plugins,entryFiles

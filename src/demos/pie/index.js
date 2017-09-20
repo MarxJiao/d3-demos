@@ -3,7 +3,11 @@
  * @author Marx
  */
 
-import {pie, arc, scaleOrdinal, schemeCategory20, select, selectAll, sum} from 'd3';
+import {pie, arc} from 'd3-shape';
+import {scaleOrdinal, schemeCategory20} from 'd3-scale';
+import {select, selectAll} from 'd3-selection';
+import {sum} from 'd3-array';
+// import {sum, pie, arc, scaleOrdinal, schemeCategory20, select, selectAll} from 'd3/index';
 
 const dataset = [
     ['小米', 60.8],
