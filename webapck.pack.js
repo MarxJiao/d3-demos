@@ -7,14 +7,13 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 const fs = require('fs');
 const pages = fs.readdirSync('src/demos', 'utf8');
 
 // 将文件信息保存在files.js里面
-fs.writeFile('./files.js', 'export const files = ["' + pages.join('","') + '"];', () => {
-    console.log('Saved.');  
-})
+fs.writeFileSync('./files.js', 'export const files = ["' + pages.join('","') + '"];');
 
 // HtmlWebpackPlugin数组，用来保存要打包的页面
 let plugins = [];
